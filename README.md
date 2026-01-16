@@ -1,12 +1,11 @@
-# Product Extraction & Fuzzy Matching API
+# Product Extraction & Fuzzy Matching
 
-A high-performance Go (Golang) API designed to extract and map structured product information (Product Name, Brand, Category) from raw input text.
+Extract and map structured product information (Product Name, Brand, Category) from raw input text.
 
 It uses a hybrid approach combining **Token Elimination** and **Levenshtein Distance (Fuzzy Matching)** to find the most accurate match from a loaded CSV dictionary.
 
 ## 🚀 Features
 
-* **Fast In-Memory Lookup:** Loads the dictionary into memory for millisecond-level response times.
 * **Hybrid Matching Logic:**
     1.  **Token Filtering:** Rapidly eliminates candidates that don't share tokens with the input.
     2.  **Fuzzy Scoring:** Calculates Levenshtein distance scores on remaining candidates to find the best match.
