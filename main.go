@@ -18,7 +18,6 @@ import (
 // CONFIG & GLOBALS
 // --------------------------------------------------
 var (
-	defaultDictPath  = "barc_csv_file_here"
 	globalDictionary []ProductRow
 )
 
@@ -134,7 +133,7 @@ func fuzzRatio(s1, s2 string) int {
 	l2 := len([]rune(s2))
 	if l1 == 0 && l2 == 0 {
 		return 100
-	}
+    }
 	dist := levenshteinDistance(s1, s2)
 	return int(float64(l1+l2-dist) / float64(l1+l2) * 100.0)
 }
@@ -152,7 +151,7 @@ func tokenMatch(token string, productText string) bool {
 	for _, pt := range productTokens {
 		if fuzzRatio(token, pt) >= 90 {
 			return true
-		}
+        }
 	}
 	return false
 }
@@ -194,7 +193,7 @@ func loadDictionary(path string) []ProductRow {
 		}
 		if idx, ok := headers["category"]; ok {
 			cIdx = idx
-		}
+        }
 
 		if len(row) > cIdx {
 			p := row[pIdx]
@@ -229,7 +228,7 @@ func extractProductFromRaw(rawText string, dictionary []ProductRow) Result {
 		// If filtering reduced the list but didn't empty it, update candidates
 		if len(filtered) > 0 {
 			candidates = filtered
-		}
+        }
 
 		// Optimization: If only 1 left, we are done
 		if len(candidates) == 1 {
@@ -297,13 +296,13 @@ func extractHandler(w http.ResponseWriter, r *http.Request) {
 
 	elapsed := time.Since(start)
 
-	resp := ExtractionResponse{
-		Product:   result.Product,
-		Brand:     result.Brand,
-		Category:  result.Category,
-		Status:    result.Status,
-		TimeTaken: fmt.Sprintf("%.4f ms", float64(elapsed.Microseconds())/1000.0),
-	}
+    resp := ExtractionResponse{
+        Product:   result.Product,
+        Brand:     result.Brand,
+        Category:  result.Category,
+        Status:    result.Status,
+        TimeTaken: fmt.Sprintf("%.4f ms", float64(elapsed.Microseconds())/1000.0),
+    }
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
@@ -318,10 +317,12 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 // 6. MAIN SERVER
 // --------------------------------------------------
 func main() {
-	// 1. Determine Config
+	// 1. Determine Config from Environment Variable
 	csvPath := os.Getenv("DICT_PATH")
+
+	// VALIDATION: Ensure the path is actually provided
 	if csvPath == "" {
-		csvPath = defaultDictPath
+		log.Fatal("CRITICAL ERROR: DICT_PATH environment variable is not set. Please export DICT_PATH=/path/to/your/file.csv before running.")
 	}
 
 	// 2. Load Data (ONCE at startup)
