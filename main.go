@@ -18,7 +18,7 @@ import (
 // CONFIG & GLOBALS
 // --------------------------------------------------
 var (
-	defaultDictPath  = "/Users/devanshusyncmedia.io/Desktop/python-bpc/barc_optimize_dic_final.csv"
+	defaultDictPath  = "barc_csv_file_here"
 	globalDictionary []ProductRow
 )
 
