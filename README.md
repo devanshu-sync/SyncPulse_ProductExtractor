@@ -21,7 +21,7 @@ It uses a hybrid approach combining **Token Elimination** and **Levenshtein Dist
 
 1.  **Clone the repository**
     ```bash
-    git clone (https://github.com/devanshu-sync/SyncPulse_ProductExtractor.git)
+   git clone https://github.com/devanshu-sync/SyncPulse_ProductExtractor.git
     ```
 
 2.  **Initialize the module**
